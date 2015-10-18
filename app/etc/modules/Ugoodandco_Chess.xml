@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Ugoodandco_Chess>
+            <codePool>local</codePool>
+            <active>true</active>
+        </Ugoodandco_Chess>
+    </modules>
+</config>

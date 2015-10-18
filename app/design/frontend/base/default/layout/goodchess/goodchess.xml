@@ -1,0 +1,17 @@
+<layout version="0.1.0">
+
+    <goodchess_index_index>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>goodandco/css/goodchess.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <script>goodandco/goodchess.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="goodchess/board" name="goodchess_board" template="goodchess/board.phtml" />
+        </reference>
+    </goodchess_index_index>
+    
+</layout>

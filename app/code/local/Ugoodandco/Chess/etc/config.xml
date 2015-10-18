@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ugoodandco_Chess>
+            <version>0.1.0</version>
+        </Ugoodandco_Chess>
+    </modules>
+    <frontend>
+        <routers>
+            <goodchess>
+                <use>standard</use>
+                <args>
+                    <module>Ugoodandco_Chess</module>
+                    <frontName>goodchess</frontName>
+                </args>
+            </goodchess>
+        </routers>
+        <layout>
+            <updates>
+                <goodchess>
+                    <file>goodchess/goodchess.xml</file>
+                </goodchess>
+            </updates>
+        </layout>
+    </frontend>
+   
+    <global>
+        <models>
+            <goodchess>
+                <class>Ugoodandco_Chess_Model</class>
+            </goodchess>
+        </models>
+        <helpers>
+            <goodchess>
+                <class>Ugoodandco_Chess_Helper</class>
+            </goodchess>
+        </helpers>
+        <blocks>
+            <goodchess>
+                <class>Ugoodandco_Chess_Block</class>
+            </goodchess>
+        </blocks>
+    </global>
+</config>

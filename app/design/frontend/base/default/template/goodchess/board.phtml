@@ -1,0 +1,96 @@
+<?php $board = $this->getBoard(); 
+?>
+
+
+<h1>Magento Chess</h1>
+<div id="board" class="board">
+    <?php foreach ($board as $row => $cells): ?>
+        <div id="row-<?php echo $row ?>" class="row">
+            <?php foreach ($cells as $cell => $options): ?>
+                <div id="cell-<?php echo $row . $cell ?>" class="cell cell-<?php echo $options['type'] ?>">                </div>
+            <?php endforeach; ?>
+        </div>
+
+    <?php endforeach; ?>
+
+</div>
+
+<div id="start-game" class="button" onclick="startGame()">
+    <span><span>Start!</span></span>
+</div>
+<div id="onstart" style="display:none">
+    <h1>Go!</h1>
+</div>
+
+<script>
+    
+     document.observe('dom:loaded', function(){
+         $$(".cell").invoke('observe', 'click', function(event) {
+          if(this.classList.contains('cell-selected')){
+              var to = this.id;
+              var from = $$(".chess-clicked").first().getAttribute('id');
+              sendStep(from, to);
+          }
+         });
+    }); 
+ 
+    function startGame() {
+        var url = "<?php echo Mage::getUrl('goodchess') ?>index/start";
+        new Ajax.Request(url, {
+            method: 'post',
+            onSuccess: process,
+            onFailure: function () {
+                alert("There was an error with the connection");
+            },
+        });
+
+    }
+    
+    function sendStep(oldpos, newpos){
+        var to = newpos.substr(-2);
+        var from = oldpos.substr(-2);
+        var new_image_pos = oldpos.substr(0,2)+to;
+        var new_cell_pos = newpos;
+
+        var url = "<?php echo Mage::getUrl('goodchess') ?>index/setStep/from/"+from+"/to/"+to;
+        new Ajax.Request(url, {
+            method: 'post',
+            
+            onSuccess: function(response){
+                $(oldpos).remove();
+                var img = new Image();
+                $(new_cell_pos).appendChild(img);
+                var json = response.responseText.evalJSON(true);
+                if(json.remove != undefined){
+                    if($('b-'+json.remove) != null)
+                        $('b-'+json.remove).remove();
+                    else
+                        $('w-'+json.remove).remove();
+                }
+                img.src = json.image;
+                img.className = 'chess';
+                img.alt = '';
+                img.id = new_image_pos;
+                img.onclick = function(){
+                    var images = $$(".chess");
+                        images.each(function(box){
+                            box.classList.remove('chess-clicked');
+                        });
+                        var cells = $$(".cell");
+                        cells.each(function(box){
+                            box.classList.remove('cell-selected');
+                        })
+                    $(this.id).classList.add('chess-clicked');
+                    //new DragObject($(this.id));
+                    analyzeStep(this.id, false, 0);
+                }
+            },
+            onFailure: function () {
+                alert("There was an error with the connection");
+            },
+        });
+    }
+    
+    
+
+</script>
